@@ -18,6 +18,6 @@ class RydbergDeviceSimulator:
 
         #Initilize simulator wihtout electrons for plotting
         self.n_electrons = 0
-        self.electrons_vector = None
+        self.microstate = None
         
         self.potential = FullModel(potential_dict=potential_dict, voltage_dict=self.device_voltage)
