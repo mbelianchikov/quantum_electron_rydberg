@@ -7,6 +7,8 @@ This package has two main functions
 
 2. It calculates properties of in-plane electron modes. This is useful in two cases: (a) the electron motional states can be used for quantum computation, and this package can help to determine eigenfrequencies and eigenvectors of electron clusters (b) in the large $N$ limit the electron motional modes are also known as plasmons. There is an abundance of literature about these charge density waves, and many of the properties can be reproduced with this module.
 
+3. It calculates Ez electric field for every electron both from device electrostatics and image charge. Electric field could be recalculated to Rydberg spectra based on tabulated Stark-shifr data.
+
 ### Features
 - Robust operation through the use of the `scipy.optimize.minimize` library. We assure proper and fast convergence because the force (gradient of the energy) is supplied as an argument of the minimizer.
 - Supply arbitrary potential energies $\phi$, as long as they're on a rectangular grid. 
