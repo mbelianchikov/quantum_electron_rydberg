@@ -9,7 +9,7 @@ class ElectricField:
         self.field = field
         self.xlist = xlist
         self.ylist = ylist
-        self.udated = False
+        self.updated = False
 
     """This class stores Ez electric field map on rectangilar grid and handles basic operations: plot, plot_slice, append, crop, etc.
     
