@@ -33,7 +33,7 @@ class Microstate:
 
     def field(self) -> ArrayLike:
         # ke [V*m/C]
-        ke = -8.987551792e9
+        ke = 8.987551792e9
         # ke [V*m*(1e6 mkm/m)= V/mkm]
         kee = (ke*1.602176e-19)*1e6
         x, y = r2xy(self.positions)
@@ -43,7 +43,7 @@ class Microstate:
         for i,charge in enumerate(charges):
             efield_tmp = np.zeros(3)
             for j, image in enumerate(images):
-                r = image-charge
+                r = charge-image
                 efield = kee*r/(np.sqrt(r.dot(r)))**3
                 efield_tmp = efield_tmp + efield
                 field[i] = efield_tmp[2]
