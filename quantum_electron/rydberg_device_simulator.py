@@ -1,4 +1,5 @@
 import numpy as np
+from matplotlib import pyplot as plt
 from typing import Dict, Optional
 from numpy.typing import ArrayLike
 
@@ -30,7 +31,7 @@ class RydbergDeviceSimulator:
         self.device_voltage = dict(zip(self.device_electrodes, np.zeros(len(self.device_electrodes))))
         
         
-        self.device_field = ElectricField(make_potential(self.device_field_coupl, voltages=self.device_voltage),self.device_field_coupl['xlist'],self.device_field_coupl['ylist'])
+        self.device_field = ElectricField(-1*make_potential(self.device_field_coupl, voltages=self.device_voltage),self.device_field_coupl['xlist'],self.device_field_coupl['ylist'])
         self.device_field.updated = True
 
         self.charge_field = None
@@ -73,12 +74,12 @@ class RydbergDeviceSimulator:
         for key in voltage_set.keys():
             self.device_voltage[key] = voltage_set[key]
         
-        self.device_field.field = make_potential(self.device_field_coupl, voltages=self.device_voltage)
+        self.device_field.field = -1*make_potential(self.device_field_coupl, voltages=self.device_voltage)
         self.device_field.updated = True
 
         
         
-    def solve(self):
+    def solve(self, **kwarg):
         """Method to solve groundstate and returns microstate. Microstate, and charge vector are marked as updated.
 
         Args:
@@ -86,7 +87,7 @@ class RydbergDeviceSimulator:
         Returns:
             ArrayLike: microstate of optimized charge ground state
         """
-        solver = FullModel(potential_dict=self.device_potential_coupl, voltage_dict=self.device_voltage)
+        solver = FullModel(potential_dict=self.device_potential_coupl, voltage_dict=self.device_voltage, **kwarg)
         res = solver.get_electron_positions(n_electrons=self.microstate.n, electron_initial_positions=self.microstate.positions)
         self.microstate.positions = res.x
         self.microstate.n = len(res.x)//2
@@ -108,7 +109,7 @@ class RydbergDeviceSimulator:
                                         kx=kx, ky=ky, s=s)
         V = interpolator.ev(x*1e6, y*1e6)
     
-        return -V*10000
+        return V*10000
 
     def total_field_vector(self) -> ArrayLike:
         return self.device_field_vector()+self.microstate.field()
@@ -122,5 +123,35 @@ class RydbergDeviceSimulator:
         ypoints = np.zeros(freq_vector.size)
         for f in self.freq():
             ypoints = ypoints + Lorenz(freq_vector, f, G)
-        return ypoints
+        return freq_vector, ypoints
+
+    def plot_spectra(self, freq_start=100, freq_stop=1000, step = 0.5, G=1.0, ax=None, axlims: Optional[tuple] = None, figsize: tuple[float, float] = (6, 3), tag: str = 'auto'):
+        """Plot a potential slice along x or y. To control the dimension, supply arguments in one of the two forms
+        - x = [x0], y = np.linspace(ymin, ymax, ...) to plot the potential vs. y at x = x0 OR
+        - y = [y0], x = np.linspace(xmin, xmax, ...) to plot the potential vs. x at y = y0
+
+        Args:
+            ax (_type_, optional): Matplotlib axes object. If None, a new instance will be created. Defaults to None.
+            Raises:
+            ValueError: If x and y are not according to the rules above, a ValueError is raised.
+        """
+        freq_vector = np.arange(freq_start, freq_stop, step)
+        ypoints = np.zeros(freq_vector.size)
+        for f in self.freq():
+            ypoints = ypoints + Lorenz(freq_vector, f, G)
+
+        if ax is None:
+            fig = plt.figure(figsize=figsize)
+            ax = fig.add_subplot(111)
+
+
+        label = f"{self.microstate.n:2.0f} electrons" if tag == 'auto' else tag
+            
+        ax.plot(freq_vector, ypoints, label=label)
+        ax.set_xlabel("Frequency, GHz")
+        ax.set_ylabel("Intensity, a.u.")
+        if axlims is not None:
+            ax.set_ylim(axlims)
+        ax.locator_params(axis='both', nbins=4)
+        ax.legend(loc=0, frameon=False)
         
