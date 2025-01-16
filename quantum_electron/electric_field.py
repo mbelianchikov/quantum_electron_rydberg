@@ -21,7 +21,7 @@ class ElectricField:
 
     def plot_field(self, ax=None, coor: Optional[List[float]] = [0, 0], dxdy: List[float] = [1, 2],
                           figsize: tuple[float, float] = (7, 4), show_minimum: bool = False, plot_contours: bool = False,
-                          clim: Optional[tuple] = None) -> None:
+                          clim: Optional[tuple] = None):
         """Plot the Ez electric field as function of (x,y)
         Args:
             ax (_type_, optional): Matplotlib axes object. Defaults to None.
@@ -33,7 +33,7 @@ class ElectricField:
         """
 
         # Convert field from V/mkm -> V/cm
-        zdata = -10000*self.field.T
+        zdata = 10000*self.field.T
 
         if ax is None:
             fig = plt.figure(figsize=figsize)
@@ -78,6 +78,7 @@ class ElectricField:
 
         if ax is None:
             plt.tight_layout()
+        return ax
             
     def plot_field_slice(self, ax=None, x: ArrayLike = [], y: ArrayLike = [], axlims: Optional[tuple] = None, 
                              figsize: tuple[float, float] = (6, 3), tag: str = 'auto'):
@@ -97,7 +98,7 @@ class ElectricField:
             ValueError: If x and y are not according to the rules above, a ValueError is raised.
         """
         # Convert field from V/mkm -> V/cm
-        zdata = -10000*self.field.T
+        zdata = 10000*self.field.T
         
         if ax is None:
             fig = plt.figure(figsize=figsize)
