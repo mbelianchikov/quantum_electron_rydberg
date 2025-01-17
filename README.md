@@ -1,5 +1,5 @@
 ![example workflow](https://github.com/gkoolstra/quantum_electron/actions/workflows/python-app.yml/badge.svg)
-# Quantum Electron Solver
+# Electron Rydberg Simulator
 ![image info](./images/top.png)
 ## Main use cases
 This package has two main functions
