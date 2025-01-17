@@ -1,6 +1,6 @@
 ![example workflow](https://github.com/gkoolstra/quantum_electron/actions/workflows/python-app.yml/badge.svg)
 # Quantum Electron Solver
-![image info](./images/electron_results.png)
+![image info](./images/top.png)
 ## Main use cases
 This package has two main functions
 1. It simulates electron positions in a two dimensional plane for electrons confined in an electrostatic potential $\phi$. Electron-electron interactions are also taken into account. Physically, it minimizes the total energy of an $N$-electron system, which is given by $ -e\sum_i \phi(\mathbf{r}_i) + \sum_{i<j} \frac{e^2}{4 \pi \epsilon_0} \frac{1}{|\mathbf{r}_i - \mathbf{r}_j|}$.
@@ -16,7 +16,7 @@ This package has two main functions
 - Periodic boundary condition support for systems with open boundaries.
 - Seemless integration with finite element modeling software ZeroHeliumKit.
 
-![Package performance](./images/top.png)
+![Package performance](./images/performance.png)
 
 ## Installation
 
