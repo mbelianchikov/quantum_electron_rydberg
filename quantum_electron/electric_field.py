@@ -129,7 +129,7 @@ class ElectricField:
             
             ax.plot(self.xlist, zdata[y_idx, :], label=label)
             ax.set_xlabel("$x$"+f" ({chr(956)}m)")
-            ax.set_ylabel(r"Potential energy $-eV(x,y)$")
+            ax.set_ylabel(r"Electric field $E_{z}(x,y), V/cm$")
             if axlims is not None:
                 ax.set_ylim(axlims)
             ax.set_xlim(np.min(x), np.max(x))
