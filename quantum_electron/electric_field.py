@@ -19,9 +19,9 @@ class ElectricField:
             ylist (ArrayLike): 1D-array of y coordinates points.
     """
 
-    def plot_field(self, ax=None, coor: Optional[List[float]] = [0, 0], dxdy: List[float] = [1, 2],
+    def plot_field(self, ax = None, coor: Optional[List[float]] = [0, 0], dxdy: List[float] = [1, 2],
                           figsize: tuple[float, float] = (7, 4), show_minimum: bool = False, plot_contours: bool = False,
-                          clim: Optional[tuple] = None):
+                          clim: Optional[tuple] = None, colorbar: Optional[bool] = None):
         """Plot the Ez electric field as function of (x,y)
         Args:
             ax (_type_, optional): Matplotlib axes object. Defaults to None.
@@ -42,6 +42,9 @@ class ElectricField:
         else:
             make_colorbar = False
 
+        if colorbar is not None:
+            make_colorbar = colorbar
+        
         if clim is not None:
             pcm = ax.pcolormesh(
                 self.xlist, self.ylist, zdata, vmin=clim[0], vmax=clim[1], cmap=plt.cm.RdYlBu_r)
@@ -54,7 +57,7 @@ class ElectricField:
             tick_locator = matplotlib.ticker.MaxNLocator(nbins=4)
             cbar.locator = tick_locator
             cbar.update_ticks()
-            cbar.ax.set_ylabel(r"Electric field $Ez(x,y), V/cm$")
+            cbar.ax.set_ylabel(r"Electric field $E_{z}(x,y), V/cm$")
         
         if show_minimum:
             xidx, yidx = np.unravel_index(zdata.argmin(), zdata.shape)
