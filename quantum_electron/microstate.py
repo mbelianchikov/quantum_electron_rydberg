@@ -14,7 +14,7 @@ class Microstate:
         self.helium_z = helium_z
         self.n = n_electrons
 
-    def plot_positions(self, ax=None, color: str = 'mediumseagreen', marker_size: float = 10.0) -> None:
+    def plot_positions(self, ax=None, color: str = 'mediumseagreen', marker_size: float = 8.0) -> None:
         """Plot electron positions obtained from get_electron_positions
 
         Args:
@@ -34,7 +34,7 @@ class Microstate:
     def field(self) -> ArrayLike:
         # ke [V*m/C]
         ke = 8.987551792e9
-        # ke [V*m*(1e6 mkm/m)= V/mkm]
+        # kee [V*m*(1e6 mkm/m)= V*mkm]
         kee = (ke*1.602176e-19)*1e6
         x, y = r2xy(self.positions)
         charges = np.stack((x*1e6, y*1e6, np.full(x.size, self.helium_z)), axis=1)
@@ -44,8 +44,9 @@ class Microstate:
             efield_tmp = np.zeros(3)
             for j, image in enumerate(images):
                 r = charge-image
+                # efield [(V*mkm)*mkm/(mkm**3)= V*mkm]
                 efield = kee*r/(np.sqrt(r.dot(r)))**3
                 efield_tmp = efield_tmp + efield
-                field[i] = efield_tmp[2]
+            field[i] = efield_tmp[2]
         # return result in V//mkm *(10000 mkm/cm) = V/cm
         return field*10000
