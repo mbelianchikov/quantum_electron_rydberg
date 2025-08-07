@@ -1,7 +1,7 @@
 ![example workflow](https://github.com/gkoolstra/quantum_electron/actions/workflows/python-app.yml/badge.svg)
 # Electron Rydberg Simulator
 
-![image info](./images/electron_results.png)
+![image info](./images/top.png)
 
 ## Main use cases
 This package has three main functions
