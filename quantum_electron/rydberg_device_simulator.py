@@ -38,7 +38,7 @@ class RydbergDeviceSimulator:
 
         self.helium_z = helium_z
 
-        #Initilize simulator wihtout electrons for plotting
+        #Initialize simulator without electrons for plotting
         self.microstate = Microstate(helium_z = self.helium_z)
         
 
@@ -56,7 +56,7 @@ class RydbergDeviceSimulator:
             self.microstate.positions = charge_source.make_rectangular(**kwarg)
             
         if typ == "chemical_potential":
-            self.microstate.positions = harge_source.make_by_chemical_potential(**kwarg)
+            self.microstate.positions = charge_source.make_by_chemical_potential(**kwarg)
 
         self.microstate.n = len(self.microstate.positions) //2
 
@@ -122,7 +122,7 @@ class RydbergDeviceSimulator:
         freq_vector = np.arange(freq_start, freq_stop, step)
         ypoints = np.zeros(freq_vector.size)
         for f in self.freq():
-            ypoints = ypoints + Lorenz(freq_vector, f, G)
+            ypoints += Lorenz(freq_vector, f, G)
         return freq_vector, ypoints
 
     def plot_spectra(self, freq_start=100, freq_stop=1000, step = 0.5, G=1.0, ax=None, axlims: Optional[tuple] = None, figsize: tuple[float, float] = (6, 3), tag: str = 'auto'):
@@ -138,7 +138,7 @@ class RydbergDeviceSimulator:
         freq_vector = np.arange(freq_start, freq_stop, step)
         ypoints = np.zeros(freq_vector.size)
         for f in self.freq():
-            ypoints = ypoints + Lorenz(freq_vector, f, G)
+            ypoints += Lorenz(freq_vector, f, G)
 
         if ax is None:
             fig = plt.figure(figsize=figsize)
@@ -154,4 +154,5 @@ class RydbergDeviceSimulator:
             ax.set_ylim(axlims)
         ax.locator_params(axis='both', nbins=4)
         ax.legend(loc=0, frameon=False)
-        
+
+        return ax
