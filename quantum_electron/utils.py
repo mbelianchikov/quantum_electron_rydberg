@@ -485,8 +485,9 @@ class PotentialVisualization:
             cbar.update_ticks()
             cbar.ax.set_ylabel(r"Potential energy $-eV(x,y)$")
 
-        xidx, yidx = np.unravel_index(zdata.argmin(), zdata.shape)
-        ax.plot(self.potential_dict['xlist'][yidx],
+        if show_minimum:
+            xidx, yidx = np.unravel_index(zdata.argmin(), zdata.shape)
+            ax.plot(self.potential_dict['xlist'][yidx],
                 self.potential_dict['ylist'][xidx], '*', color='white')
 
         ax.set_xlim(coor[0] - dxdy[0]/2, coor[0] + dxdy[0]/2)
