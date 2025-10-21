@@ -452,7 +452,7 @@ class PotentialVisualization:
             
         
     def plot_potential_energy(self, ax=None, coor: Optional[List[float]] = [0, 0], dxdy: List[float] = [1, 2], figsize: tuple[float, float] = (7, 4),
-                              show_minimum: bool = True, print_voltages: bool = True,  plot_contours: bool = True, clim: Optional[tuple] = None) -> None:
+                              show_minimum: bool = True, print_voltages: bool = True,  plot_contours: bool = True, clim: Optional[tuple] = None, c_map = plt.cm.RdYlBu_r) -> None:
         """Plot the potential energy as function of (x,y)
 
         Args:
@@ -473,10 +473,10 @@ class PotentialVisualization:
 
         if clim is not None:
             pcm = ax.pcolormesh(
-                self.potential_dict['xlist'], self.potential_dict['ylist'], zdata, vmin=clim[0], vmax=clim[1], cmap=plt.cm.RdYlBu_r)
+                self.potential_dict['xlist'], self.potential_dict['ylist'], zdata, vmin=clim[0], vmax=clim[1], cmap=c_map)
         else:
             pcm = ax.pcolormesh(
-                self.potential_dict['xlist'], self.potential_dict['ylist'], zdata, cmap=plt.cm.RdYlBu_r)
+                self.potential_dict['xlist'], self.potential_dict['ylist'], zdata, cmap=c_map)
 
         if make_colorbar:
             cbar = plt.colorbar(pcm, fraction=0.046, pad=0.04)

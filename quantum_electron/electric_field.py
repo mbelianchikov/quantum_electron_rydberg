@@ -21,7 +21,7 @@ class ElectricField:
 
     def plot_field(self, ax = None, coor: Optional[List[float]] = [0, 0], dxdy: List[float] = [1, 2],
                           figsize: tuple[float, float] = (7, 4), show_minimum: bool = False, plot_contours: bool = False,
-                          clim: Optional[tuple] = None, colorbar: Optional[bool] = None):
+                          clim: Optional[tuple] = None, colorbar: Optional[bool] = None, c_map = plt.cm.RdYlBu_r):
         """Plot the Ez electric field as function of (x,y)
         Args:
             ax (_type_, optional): Matplotlib axes object. Defaults to None.
@@ -47,10 +47,10 @@ class ElectricField:
         
         if clim is not None:
             pcm = ax.pcolormesh(
-                self.xlist, self.ylist, zdata, vmin=clim[0], vmax=clim[1], cmap=plt.cm.RdYlBu_r)
+                self.xlist, self.ylist, zdata, vmin=clim[0], vmax=clim[1], cmap=c_map)
         else:
             pcm = ax.pcolormesh(
-                self.xlist, self.ylist, zdata, cmap=plt.cm.RdYlBu_r)
+                self.xlist, self.ylist, zdata, cmap=c_map)
 
         if make_colorbar:
             cbar = plt.colorbar(pcm, fraction=0.046, pad=0.04)
